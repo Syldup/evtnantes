@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <title>Event Nantes</title>
+
+</head>
+<body>
+  <div class="container">
+  	<div id="app" v-cloak>
+    	<div class="bar">
+      <a class="grid-icon" :class="{ 'active': layout == 'grid'}" @click="layout = 'grid'"></a>
+      <a class="tab-icon" :class="{ 'active': layout == 'tab'}" @click="layout = 'tab'"></a>
+        <form id="search" class="form-inline my-2">
+          <label for="inputQuery" class="text-white col-form-label mx-3">Chercher</label>
+          <input id="inputQuery" name="query" class="form-control" type="text" v-model="filterKey">
+        </form>
+    	</div>
+
+      <ul v-if="layout == 'grid'" class="grid">
+    		<li v-for="r in records">
+    			<a v-bind:href="a.url" target="_blank"><img v-bind:src="a.image.large" /></a>
+    		</li>
+    	</ul>
+
+    	<ul v-if="layout == 'tab'" class="tab">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" v-for="(key, index) in gridColumns"
+                @click="sortBy(index)"
+                :class="{ active: sortKey == index }">
+                {{ key | capitalize }}
+                <span class="arrow" :class="sortOrders[index] > 0 ? 'asc' : 'dsc'">
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="entry in filteredTData">
+              <td v-for="value in entry">
+                {{value}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    	</ul>
+	  </div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+
+</body>
+</html>
